@@ -78,6 +78,10 @@
 
   .card-apply { display:block; width:100%; padding:11px; text-align:center; background:transparent; border:1px solid rgba(200,170,80,0.3); color:var(--gold); border-radius:8px; font-size:13px; font-weight:500; font-family:'DM Sans',sans-serif; cursor:pointer; text-decoration:none; transition:all 0.18s; margin-top:auto; }
   .card-apply:hover { background:rgba(200,170,80,0.08); border-color:var(--gold); }
+  .card-btns { display:flex; gap:8px; margin-top:auto; }
+  .card-btns .card-apply { flex:1; margin-top:0; }
+  .card-review-btn { flex:1; display:block; padding:11px; text-align:center; background:transparent; border:1px solid rgba(255,255,255,0.1); color:var(--muted); border-radius:8px; font-size:13px; font-weight:500; font-family:'DM Sans',sans-serif; cursor:pointer; text-decoration:none; transition:all 0.18s; }
+  .card-review-btn:hover { border-color:rgba(255,255,255,0.25); color:var(--text); }
 
   .no-results { text-align:center; padding:80px 20px; display:none; }
   .no-results-title { font-family:'Playfair Display',serif; font-size:24px; margin-bottom:12px; }
@@ -119,6 +123,7 @@
     <li><a href="index.html#how">How It Works</a></li>
     <li><a href="index.html#quiz-section">Find My Card</a></li>
     <li><a href="cards.html" class="active">Compare Cards</a></li>
+    <li><a href="reviews.html">Reviews</a></li>
     <li><a href="index.html#about">About</a></li>
     <li><a href="index.html#contact">Contact</a></li>
   </ul>
@@ -222,7 +227,10 @@
           <span class="airline-pill">Delta (via transfer)</span>
         </div>
       </div>
-      <a href="https://creditcards.chase.com/rewards-credit-cards/sapphire/reserve" target="_blank" rel="noopener noreferrer" class="card-apply">Apply Now →</a>
+      <div class="card-btns">
+        <a href="chase-sapphire-reserve-review.html" class="card-review-btn">Read Review</a>
+        <a href="https://creditcards.chase.com/rewards-credit-cards/sapphire/reserve" target="_blank" rel="noopener noreferrer" class="card-apply">Apply Now →</a>
+      </div>
     </div>
 
     <!-- Amex Platinum -->

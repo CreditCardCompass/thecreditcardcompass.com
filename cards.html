@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compare Credit Cards — The Credit Card Compass</title>
+<meta name="description" content="Compare the best credit cards by issuer, annual fee, rewards, and airline partners. Find the right card for travel, cash back, dining and more.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --gold:#c8aa50; --gold-light:#e0c870; --dark:#0a0a14; --dark2:#111827; --dark3:#1a1f2e; --text:#f0ede6; --muted:#888; --border:rgba(255,255,255,0.08); }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:var(--dark); color:var(--text); font-family:'DM Sans',sans-serif; line-height:1.6; }
+
+  nav { position:sticky; top:0; z-index:100; background:rgba(10,10,20,0.92); backdrop-filter:blur(12px); border-bottom:1px solid var(--border); padding:0 5%; display:flex; align-items:center; justify-content:space-between; height:64px; }
+  .logo { display:flex; align-items:center; gap:10px; text-decoration:none; }
+  .logo-text { font-family:'Playfair Display',serif; font-size:18px; font-weight:700; color:var(--text); }
+  .logo-text span { color:var(--gold); }
+  .nav-links { display:flex; gap:28px; list-style:none; }
+  .nav-links a { color:var(--muted); text-decoration:none; font-size:14px; transition:color 0.2s; }
+  .nav-links a:hover { color:var(--text); }
+  .nav-links a.active { color:var(--gold); }
+  .nav-cta { background:linear-gradient(135deg,var(--gold),var(--gold-light)); color:var(--dark); border:none; border-radius:8px; padding:9px 20px; font-size:13px; font-weight:600; font-family:'DM Sans',sans-serif; cursor:pointer; text-decoration:none; }
+
+  .page-header { padding:60px 5% 40px; background:radial-gradient(ellipse at 20% 50%, rgba(200,170,80,0.07) 0%, transparent 60%); }
+  .page-header-inner { max-width:1200px; margin:0 auto; }
+  .eyebrow { font-size:11px; font-weight:500; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); margin-bottom:12px; }
+  .page-title { font-family:'Playfair Display',serif; font-size:clamp(32px,4vw,48px); font-weight:900; margin-bottom:12px; }
+  .page-sub { font-size:16px; color:var(--muted); max-width:520px; }
+
+  .filters { background:var(--dark3); border-bottom:1px solid var(--border); padding:20px 5%; position:sticky; top:64px; z-index:90; }
+  .filters-inner { max-width:1200px; margin:0 auto; display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+  .filter-label { font-size:12px; color:var(--muted); margin-right:4px; white-space:nowrap; }
+  .filter-group { display:flex; gap:8px; flex-wrap:wrap; }
+  .filter-btn { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); border-radius:20px; padding:6px 14px; font-size:12px; font-family:'DM Sans',sans-serif; color:var(--muted); cursor:pointer; transition:all 0.18s; white-space:nowrap; }
+  .filter-btn:hover { border-color:rgba(200,170,80,0.3); color:var(--text); }
+  .filter-btn.active { background:rgba(200,170,80,0.12); border-color:var(--gold); color:var(--gold); }
+  .filter-divider { width:1px; height:24px; background:var(--border); margin:0 4px; }
+  .results-count { font-size:12px; color:var(--muted); margin-left:auto; white-space:nowrap; }
+
+  .cards-main { padding:40px 5%; max-width:1200px; margin:0 auto; }
+  .cards-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(340px,1fr)); gap:20px; }
+
+  .card-item { background:var(--dark3); border:1px solid var(--border); border-radius:16px; padding:24px; transition:all 0.2s; display:flex; flex-direction:column; }
+  .card-item:hover { border-color:rgba(200,170,80,0.25); transform:translateY(-2px); }
+  .card-item.hidden { display:none; }
+
+  .card-header { display:flex; align-items:center; gap:14px; margin-bottom:16px; }
+  .card-chip { width:52px; height:34px; border-radius:6px; flex-shrink:0; }
+  .card-title { font-family:'Playfair Display',serif; font-size:16px; font-weight:700; line-height:1.2; margin-bottom:3px; }
+  .card-issuer { font-size:12px; color:var(--muted); }
+
+  .card-tags { display:flex; flex-wrap:wrap; gap:5px; margin-bottom:14px; }
+  .tag { font-size:10px; padding:3px 8px; border-radius:20px; font-weight:500; letter-spacing:0.3px; }
+  .tag-airline { background:rgba(200,170,80,0.1); border:1px solid rgba(200,170,80,0.2); color:var(--gold); }
+  .tag-type { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#aaa; }
+
+  .card-divider { height:1px; background:var(--border); margin-bottom:14px; }
+
+  .card-stats { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px; }
+  .stat-item { }
+  .stat-label { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:3px; }
+  .stat-value { font-size:13px; font-weight:500; color:var(--text); }
+  .stat-value.gold { color:var(--gold); }
+
+  .card-bonus { background:rgba(200,170,80,0.06); border:1px solid rgba(200,170,80,0.12); border-radius:8px; padding:10px 12px; margin-bottom:14px; }
+  .bonus-label { font-size:10px; color:var(--gold); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:3px; }
+  .bonus-value { font-size:13px; color:#ccc; }
+
+  .card-perks { margin-bottom:16px; flex:1; }
+  .perk-item { font-size:12px; color:#999; padding:3px 0; display:flex; align-items:flex-start; gap:6px; }
+  .perk-dot { width:4px; height:4px; border-radius:50%; background:var(--gold); opacity:0.5; flex-shrink:0; margin-top:6px; }
+
+  .card-airlines { margin-bottom:16px; }
+  .airlines-label { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px; }
+  .airline-pills { display:flex; flex-wrap:wrap; gap:4px; }
+  .airline-pill { font-size:11px; padding:2px 8px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); border-radius:20px; color:#aaa; }
+
+  .card-apply { display:block; width:100%; padding:11px; text-align:center; background:transparent; border:1px solid rgba(200,170,80,0.3); color:var(--gold); border-radius:8px; font-size:13px; font-weight:500; font-family:'DM Sans',sans-serif; cursor:pointer; text-decoration:none; transition:all 0.18s; margin-top:auto; }
+  .card-apply:hover { background:rgba(200,170,80,0.08); border-color:var(--gold); }
+
+  .no-results { text-align:center; padding:80px 20px; display:none; }
+  .no-results-title { font-family:'Playfair Display',serif; font-size:24px; margin-bottom:12px; }
+  .no-results-sub { color:var(--muted); font-size:15px; margin-bottom:24px; }
+  .reset-btn { background:linear-gradient(135deg,var(--gold),var(--gold-light)); color:var(--dark); border:none; border-radius:8px; padding:11px 24px; font-size:13px; font-weight:600; font-family:'DM Sans',sans-serif; cursor:pointer; }
+
+  .disc { background:var(--dark3); border-top:1px solid var(--border); padding:32px 5%; }
+  .disc-inner { max-width:1200px; margin:0 auto; }
+  .disc-title { font-size:12px; font-weight:600; color:var(--muted); margin-bottom:8px; letter-spacing:0.5px; text-transform:uppercase; }
+  .disc-text { font-size:12px; color:#444; line-height:1.7; }
+
+  footer { background:var(--dark); border-top:1px solid var(--border); padding:28px 5%; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; }
+  .footer-logo { font-family:'Playfair Display',serif; font-size:16px; font-weight:700; }
+  .footer-logo span { color:var(--gold); }
+  .footer-links { display:flex; gap:20px; }
+  .footer-links a { font-size:13px; color:#444; text-decoration:none; }
+  .footer-links a:hover { color:var(--muted); }
+  .footer-copy { font-size:12px; color:#333; }
+
+  @media(max-width:768px) { .nav-links { display:none; } .filters-inner { gap:8px; } .cards-grid { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">
+    <svg width="26" height="26" viewBox="0 0 28 28" fill="none">
+      <circle cx="14" cy="14" r="13" stroke="#c8aa50" stroke-width="1.2"/>
+      <circle cx="14" cy="14" r="2" fill="#c8aa50"/>
+      <line x1="14" y1="1.5" x2="14" y2="7.5" stroke="#c8aa50" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="14" y1="20.5" x2="14" y2="26.5" stroke="rgba(200,170,80,0.4)" stroke-width="1" stroke-linecap="round"/>
+      <line x1="1.5" y1="14" x2="7.5" y2="14" stroke="rgba(200,170,80,0.4)" stroke-width="1" stroke-linecap="round"/>
+      <line x1="20.5" y1="14" x2="26.5" y2="14" stroke="rgba(200,170,80,0.4)" stroke-width="1" stroke-linecap="round"/>
+      <polygon points="14,4 12.2,9.5 14,8.5 15.8,9.5" fill="#c8aa50"/>
+    </svg>
+    <span class="logo-text">The Credit Card <span>Compass</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#how">How It Works</a></li>
+    <li><a href="index.html#quiz-section">Find My Card</a></li>
+    <li><a href="cards.html" class="active">Compare Cards</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  <a href="index.html#quiz-section" class="nav-cta">Find My Card →</a>
+</nav>
+
+<div class="page-header">
+  <div class="page-header-inner">
+    <div class="eyebrow">Card Database</div>
+    <h1 class="page-title">Compare Credit Cards</h1>
+    <p class="page-sub">Browse and filter 18 top credit cards by issuer, annual fee, reward type, and airline partner. Click any card to apply directly.</p>
+  </div>
+</div>
+
+<div class="filters">
+  <div class="filters-inner">
+    <span class="filter-label">Issuer:</span>
+    <div class="filter-group" id="issuer-filters">
+      <button class="filter-btn active" data-filter="issuer" data-value="all">All</button>
+      <button class="filter-btn" data-filter="issuer" data-value="chase">Chase</button>
+      <button class="filter-btn" data-filter="issuer" data-value="amex">Amex</button>
+      <button class="filter-btn" data-filter="issuer" data-value="capital-one">Capital One</button>
+      <button class="filter-btn" data-filter="issuer" data-value="citi">Citi</button>
+      <button class="filter-btn" data-filter="issuer" data-value="wells-fargo">Wells Fargo</button>
+      <button class="filter-btn" data-filter="issuer" data-value="discover">Discover</button>
+      <button class="filter-btn" data-filter="issuer" data-value="bank-of-america">Bank of America</button>
+    </div>
+    <div class="filter-divider"></div>
+    <span class="filter-label">Fee:</span>
+    <div class="filter-group" id="fee-filters">
+      <button class="filter-btn active" data-filter="fee" data-value="all">All</button>
+      <button class="filter-btn" data-filter="fee" data-value="no-fee">No Fee</button>
+      <button class="filter-btn" data-filter="fee" data-value="low">Under $100</button>
+      <button class="filter-btn" data-filter="fee" data-value="mid">$100–$300</button>
+      <button class="filter-btn" data-filter="fee" data-value="premium">$300+</button>
+    </div>
+    <div class="filter-divider"></div>
+    <span class="filter-label">Best for:</span>
+    <div class="filter-group" id="type-filters">
+      <button class="filter-btn active" data-filter="type" data-value="all">All</button>
+      <button class="filter-btn" data-filter="type" data-value="travel">Travel</button>
+      <button class="filter-btn" data-filter="type" data-value="cash-back">Cash Back</button>
+      <button class="filter-btn" data-filter="type" data-value="dining">Dining</button>
+      <button class="filter-btn" data-filter="type" data-value="business">Business</button>
+    </div>
+    <div class="filter-divider"></div>
+    <span class="filter-label">Airline:</span>
+    <div class="filter-group" id="airline-filters">
+      <button class="filter-btn active" data-filter="airline" data-value="all">All</button>
+      <button class="filter-btn" data-filter="airline" data-value="delta">Delta</button>
+      <button class="filter-btn" data-filter="airline" data-value="united">United</button>
+      <button class="filter-btn" data-filter="airline" data-value="southwest">Southwest</button>
+      <button class="filter-btn" data-filter="airline" data-value="american">American</button>
+      <button class="filter-btn" data-filter="airline" data-value="any">Flexible</button>
+    </div>
+    <span class="results-count" id="results-count">Showing 18 cards</span>
+  </div>
+</div>
+
+<div class="cards-main">
+  <div class="cards-grid" id="cards-grid">
+
+    <!-- Chase Sapphire Reserve -->
+    <div class="card-item" data-issuer="chase" data-fee="premium" data-type="travel" data-airlines="united southwest british air_france delta">
+      <div class="card-header">
+        <div class="card-chip" style="background:linear-gradient(135deg,#1a1a2e,#2d2d60)"></div>
+        <div>
+          <div class="card-title">Chase Sapphire Reserve</div>
+          <div class="card-issuer">Chase · Visa Infinite</div>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-type">✈️ Travel</span>
+        <span class="tag tag-type">🍽️ Dining</span>
+        <span class="tag tag-airline">🏆 Premium</span>
+      </div>
+      <div class="card-divider"></div>
+      <div class="card-stats">
+        <div class="stat-item"><div class="stat-label">Annual Fee</div><div class="stat-value gold">$550</div></div>
+        <div class="stat-item"><div class="stat-label">Reward Rate</div><div class="stat-value">3x Travel & Dining</div></div>
+        <div class="stat-item"><div class="stat-label">Network</div><div class="stat-value">Visa</div></div>
+        <div class="stat-item"><div class="stat-label">Credit Needed</div><div class="stat-value">Excellent</div></div>
+      </div>
+      <div class="card-bonus">
+        <div class="bonus-label">Sign-up Bonus</div>
+        <div class="bonus-value">60,000 pts after $4,000 spend in 3 months</div>
+      </div>
+      <div class="card-perks">
+        <div class="perk-item"><div class="perk-dot"></div>$300 annual travel credit</div>
+        <div class="perk-item"><div class="perk-dot"></div>Priority Pass lounge access</div>
+        <div class="perk-item"><div class="perk-dot"></div>TSA PreCheck / Global Entry credit</div>
+        <div class="perk-item"><div class="perk-dot"></div>1.5x points redemption through Chase Travel</div>
+      </div>
+      <div class="card-airlines">
+        <div class="airlines-label">Airline Transfer Partners</div>
+        <div class="airline-pills">
+          <span class="airline-pill">United</span>
+          <span class="airline-pill">Southwest</span>
+          <span class="airline-pill">British Airways</span>
+          <span class="airline-pill">Air France/KLM</span>
+          <span class="airline-pill">Delta (via transfer)</span>
+        </div>
+      </div>
+      <a href="https://creditcards.chase.com/rewards-credit-cards/sapphire/reserve" target="_blank" rel="noopener noreferrer" class="card-apply">Apply Now →</a>
+    </div>
+
+    <!-- Amex Platinum -->
+    <div class="card-item" data-issuer="amex" data-fee="premium" data-type="travel" data-airlines="delta british air_france emirates lufthansa">
+      <div class="card-header">
+        <div class="card-chip" style="background:linear-gradient(135deg,#8c7853,#c9a97a)"></div>
+        <div>
+          <div class="card-title">Amex Platinum</div>
+          <div class="card-issuer">American Express</div>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-type">✈️ Travel</span>
+        <span class="tag tag-type">🛋️ Lounges</span>
+        <span class="tag tag-airline">🏆 Premium</span>
+      </div>
+      <div class="card-divider"></div>
+      <div class="card-stats">
+        <div class="stat-item"><div class="stat-label">Annual Fee</div><div class="stat-value gold">$695</div></div>
+        <div class="stat-item"><div class="stat-label">Reward Rate</div><div class="stat-value">5x on Flights</div></div>
+        <div class="stat-item"><div class="stat-label">Network</div><div class="stat-value">Amex</div></div>
+        <div class="stat-item"><div class="stat-label">Credit Needed</div><div class="stat-value">Excellent</div></div>
+      </div>
+      <div class="card-bonus">
+        <div class="bonus-label">Sign-up Bonus</div>
+        <div class="bonus-value">80,000 pts after $8,000 spend in 6 months</div>
+      </div>
+      <div class="card-perks">
+        <div class="perk-item"><div class="perk-dot"></div>$200 airline fee credit</div>
+        <div class="perk-item"><div class="perk-dot"></div>Centurion + Priority Pass lounges</div>
+        <div class="perk-item"><div class="perk-dot"></div>$200 hotel credit via Amex Travel</div>
+        <div class="perk-item"><div class="perk-dot"></div>Global Entry / TSA PreCheck credit</div>
+      </div>
+      <div class="card-airlines">
+        <div class="airlines-label">Airline Transfer Partners</div>
+        <div class="airline-pills">
+          <span class="airline-pill">Delta</span>
+          <span class="airline-pill">British Airways</span>
+          <span class="airline-pill">Air France/KLM</span>
+          <span class="airline-pill">Emirates</span>
+          <span class="airline-pill">Lufthansa</span>
+        </div>
+      </div>
+      <a href="https://www.americanexpress.com/us/credit-cards/card/platinum/" target="_blank" rel="noopener noreferrer" class="card-apply">Apply Now →</a>
+    </div>
+
+    <!-- Capital One Venture X -->
+    <div class="card-item" data-issuer="capital-one" data-fee="premium" data-type="travel" data-airlines="any">
+      <div class="card-header">
+        <div class="card-chip" style="background:linear-gradient(135deg,#001f3f,#003d7a)"></div>
+        <div>
+          <div class="card-title">Capital One Venture X</div>
+          <div class="card-issuer">Capital One · Visa Infinite</div>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-type">✈️ Travel</span>
+        <span class="tag tag-type">🔄 Flexible Miles</span>
+        <span class="tag tag-airline">🏆 Premium</span>
+      </div>
+      <div class="card-divider"></div>
+      <div class="card-stats">
+        <div class="stat-item"><div class="stat-label">Annual Fee</div><div class="stat-value gold">$395</div></div>
+        <div class="stat-item"><div class="stat-label">Reward Rate</div><div class="stat-value">10x Hotels & Cars</div></div>
+        <div class="stat-item"><div class="stat-label">Network</div><div class="stat-value">Visa</div></div>
+        <div class="stat-item"><div class="stat-label">Credit Needed</div><div class="stat-value">Excellent</div></div>
+      </div>
+      <div class="card-bonus">
+        <div class="bonus-label">Sign-up Bonus</div>
+        <div class="bonus-value">75,000 miles after $4,000 spend in 3 months</div>
+      </div>
+      <div class="card-perks">
+        <div class="perk-item"><div class="perk-dot"></div>$300 annual Capital One Travel credit</div>
+        <div class="perk-item"><div class="perk-dot"></div>Priority Pass + Capital One lounges</div>
+        <div class="perk-item"><div class="perk-dot"></div>10,000 anniversary bonus miles</div>
+        <div class="perk-item"><div class="perk-dot"></div>$100 Global Entry / TSA PreCheck credit</div>
+      </div>
+      <div class="card-airlines">
+        <div class="airlines-label">Airline Transfer Partners</div>
+        <div class="airline-pills">
+          <span class="airline-pill">Any Airline (via Capital One Travel)</span>
+        </div>
+      </div>
+      <a href="https://www.capitalone.com/credit-cards/venture-x/" target="_blank" rel="noopener noreferrer" class="card-apply">Apply Now →</a>
+    </div>
+
+    <!-- Chase Sapphire Preferred -->
+    <div class="card-item" data-issuer="chase" data-fee="low" data-type="travel" data-airlines="united southwest british air_france">
+      <div class="card-header">
+        <div class="card-chip" style="background:linear-gradient(135deg,#003087,#0050c8)"></div>
+        <div>
+          <div class="card-title">Chase Sapphire Preferred</div>
+          <div class="card-issuer">Chase · Visa Signature</div>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-type">✈️ Travel</span>
+        <span class="tag tag-type">🍽️ Dining</span>
+        <span class="tag tag-type">💰 Best Value</span>
+      </div>
+      <div class="card-divider"></div>
+      <div class="card-stats">
+        <div class="stat-item"><div class="stat-label">Annual Fee</div><div class="stat-value gold">$95</div></div>
+        <div class="stat-item"><div class="stat-label">Reward Rate</div><div class="stat-value">5x Travel, 3x Dining</div></div>
+        <div class="stat-item"><div class="stat-label">Network</div><div class="stat-value">Visa</div></div>
+        <div class="stat-item"><div class="stat-label">Credit Needed</div><div class="stat-value">Good–Excellent</div></div>
+      </div>
+      <div class="card-bonus">
+        <div class="bonus-label">Sign-up Bonus</div>
+        <div class="bonus-value">60,000 pts after $4,000 spend in 3 months</div>
+      </div>
+      <div class="card-perks">
+        <div class="perk-item"><div class="perk-dot"></div>$50 annual hotel credit via Chase Travel</div>
+        <div class="perk-item"><div class="perk-dot"></div>Trip cancellation / interruption insurance</div>
+        <div class="perk-item"><div class="perk-dot"></div>No foreign transaction fees</div>
+        <div class="perk-item"><div class="perk-dot"></div>1.25x point redemption through Chase Travel</div>
+      </div>
+      <div class="card-airlines">
+        <div class="airlines-label">Airline Transfer Partners</div>
+        <div class="airline-pills">
+          <span class="airline-pill">United</span>
+          <span class="airline-pill">Southwest</span>
+          <span class="airline-pill">British Airways</span>
+          <span class="airline-pill">Air France/KLM</span>
+        </div>
+      </div>
+      <a href="https://creditcards.chase.com/rewards-credit-cards/sapphire/preferred" target="_blank" rel="noopener noreferrer" class="card-apply">Apply Now →</a>
+    </div>
+
+    <!-- Amex Gold -->
+    <div class="card-item" data-issuer="amex" data-fee="mid" data-type="dining" data-airlines="delta british air_france">
+      <div class="card-header">
+        <div class="card-chip" style="background:linear-gradient(135deg,#2d2d2d,#4a4a4a)"></div>
+        <div>
+          <div class="card-title">Amex Gold Card</div>
+          <div class="card-issuer">American Express</div>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-type">🍽️ Dining</span>
+        <span class="tag tag-type">🛒 Groceries</span>
+      </div>
+      <div class="card-divider"></div>
+      <div class="card-stats">
+        <div class="stat-item"><div class="stat-label">Annual Fee</div><div class="stat-value gold">$250</div></div>
+        <div class="stat-item"><div class="stat-label">Reward Rate</div><div class="stat-value">4x Dining & Groceries</div></div>
+        <div class="stat-item"><div class="stat-label">Network</div><div class="stat-value">Amex</div></div>
+        <div class="stat-item"><div class="stat-label">Credit Needed</div><div class="stat-value">Good–Excellent</div></div>
+      </div>
+      <div class="card-bonus">
+        <div class="bonus-label">Sign-up Bonus</div>
+        <div class="bonus-value">60,000 pts after $6,000 spend in 6 months</div>
+      </div>
+      <div class="card-perks">
+        <div class="perk-item"><div class="perk-dot"></div>$120 annual dining credit</div>
+        <div class="perk-item"><div class="perk-dot"></div>$120 Uber Cash annually</div>
+        <div class="perk-item"><div class="perk-dot"></div>No foreign transaction fees</div>
+        <div class="perk-item"><div class="perk-dot"></div>4x at US supermarkets (up to $25k/yr)</div>
+      </div>
+      <div class="card-airlines">
+        <div class="airlines-label">Airline Transfer Partners</div>
+        <div class="airline-pills">
+          <span class="airline-pill">Delta</span>
+          <span class="airline-pill">British Airways</span>
+          <span class="airline-pill">Air France/KLM</span>
+        </div>
+      </div>
+      <a href="https://www.americanexpress.com/us/credit-cards/card/gold-card/" target="_blank" rel="noopener noreferrer" class="card-apply">Apply Now →</a>
+    </div>
+
+    <!-- Citi Double Cash -->
+    <div class="card-item" data-issuer="citi" data-fee="no-fee" data-type="cash-back" data-airlines="">
+      <div class="card-header">
+        <div class="card-chip" style="background:linear-gradient(135deg,#1a2a4a,#2d4a7a)"></div>
+        <div>
+          <div class="card-title">Citi Double Cash</div>
+          <div class="card-issuer">Citi · Mastercard</div>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-type">💵 Cash Back</span>
+        <span class="tag tag-type">🌐 Simple</span>
+      </div>
+      <div class="card-divider"></div>
+      <div class="card-stats">
+        <div class="stat-item"><div class="stat-label">Annual Fee</div><div class="stat-value gold">$0</div></div>
+        <div class="stat-item"><div class="stat-label">Reward Rate</div><div class="stat-value">2% on Everything</div></div>
+        <div class="stat-item"><div class="stat-label">Network</div><div class="stat-value">Mastercard</div></div>
+        <div class="stat-item"><div class="stat-label">Credit Needed</div><div class="stat-value">Good</div></div>
+      </div>
+      <div class="card-bonus">
+        <div class="bonus-label">Sign-up Bonus</div>
+        <div class="bonus-value">No sign-up bonus</div>
+      </div>
+      <div class="card-perks">
+        <div class="perk-item"><div class="perk-dot"></div>2% back — 1% when you buy, 1% when you pay</div>
+        <div class="perk-item"><div class="perk-dot"></div>No category tracking needed</div>
+        <div class="perk-item"><div class="perk-dot"></div>No annual fee ever</div>
+        <div class="perk-item"><div class="perk-dot"></div>0% intro APR on balance transfers</div>
+      </div>
+      <div class="card-airlines">
+        <div class="airlines-label">Airline Transfer Partners</div>
+        <div class="airline-pills"><span class="airline-pill">None — cash back card</span></div>
+      </div>
+      <a href="https://www.citi.com/credit-cards/citi-double-cash-credit-card" target="_blank" rel="noopener noreferrer" class="card-apply">Apply Now →</a>
+    </div>
+
+    <!-- Wells Fargo Autograph -->
+    <div class="card-item" data-issuer="wells-fargo" data-fee="no-fee" data-type="travel" data-airlines="">
+      <div class="card-header">
+        <div class="card-chip" style="background:linear-gradient(135deg,#cc0000,#990000)"></div>
+        <div>
+          <div class="card-title">Wells Fargo Autograph</div>
+          <div class="card-issuer">Wells Fargo · Visa</div>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-type">⛽ Gas</span>
+        <span class="tag tag-type">🍽️ Dining</span>
+        <span class="tag tag-type">✈️ Travel</span>
+      </div>
+      <div class="card-divider"></div>
+      <div class="card-stats">
+        <div class="stat-item"><div class="stat-label">Annual Fee</div><div class="stat-value gold">$0</div></div>
+        <div class="stat-item"><div class="stat-label">Reward Rate</div><div class="stat-value">3x on 6 Categories</div></div>
+        <div class="stat-item"><div class="stat-label">Network</div><div class="stat-value">Visa</div></div>
+        <div class="stat-item"><div class="stat-label">Credit Needed</div><div class="stat-value">Good</div></div>
+      </div>
+      <div class="card-bonus">
+        <div class="bonus-label">Sign-up Bonus</div>
+        <div class="bonus-value">20,000 pts after $1,000 spend in 3 months</div>
+      </div>
+      <div class="card-perks">
+        <div class="perk-item"><div class="perk-dot"></div>3x on restaurants, travel, gas, transit, streaming, phone</div>
+        <div class="perk-item"><div class="perk-dot"></div>Cell phone protection</div>
+        <div class="perk-item"><div class="perk-dot"></div>No annual fee</div>
+        <div class="perk-item"><div class="perk-dot"></div>No foreign transaction fees</div>
+      </div>
+      <div class="card-airlines">
+        <div class="airlines-label">Airline Transfer Partners</div>
+        <div class="airline-pills"><span class="airline-pill">None — use points for any travel</span></div>
+      </div>
+      <a href="https://www.wellsfargo.com/credit-cards/autograph-card/" target="_blank" rel="noopener noreferrer" class="card-apply">Apply Now →</a>
+    </div>
+
+    <!-- Delta SkyMiles Reserve -->
+    <div class="card-item" data-issuer="amex" data-fee="premium" data-type="travel" data-airlines="delta">
+      <div class="card-header">
+        <div class="card-chip" style="background:linear-gradient(135deg,#003366,#0050aa)"></div>
+        <div>
+          <div class="card-title">Delta SkyMiles Reserve Amex</div>
+          <div class="card-issuer">American Express</div>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-type">✈️ Travel</span>
+        <span class="tag tag-airline">🔴 Delta</span>
+      </div>
+      <div class="card-divider"></div>
+      <div class="card-stats">
+        <div class="stat-item"><div class="stat-label">Annual Fee</div><div class="stat-value gold">$650</div></div>
+        <div class="stat-item"><div class="stat-label">Reward Rate</div><div class="stat-value">3x on Delta Purchases</div></div>
+        <div class="stat-item"><div class="stat-label">Network</div><div class="stat-value">Amex</div></div>
+        <div class="stat-item"><div class="stat-label">Credit Needed</div><div class="stat-value">Excellent</div></div>
+      </div>
+      <div class="card-bonus">
+        <div class="bonus-label">Sign-up Bonus</div>
+        <div class="bonus-value">100,000 miles after $6,000 spend in 6 months</div>
+      </div>
+      <div class="card-perks">
+        <div class="perk-item"><div class="perk-dot"></div>Delta Sky Club access</div>
+        <div class="perk-item"><div class="perk-dot"></div>Annual companion certificate</div>
+        <div class="perk-item"><div class="perk-dot"></div>First checked bag free</div>
+        <div class="perk-item"><div class="perk-dot"></div>Priority boarding on Delta flights</div>
+      </div>
+      <div class="card-airlines">
+        <div class="airlines-label">Airline Partners</div>
+        <div class="airline-pills"><span class="airline-pill">Delta (primary)</span></div>
+      </div>
+      <a href="https://www.americanexpress.com/us/credit-cards/card/delta-skymiles-reserve-american-express-card/" target="_blank" rel="noopener noreferrer" class="card-apply">Apply Now →</a>
+    </div>
+
+    <!-- Southwest Rapid Rewards Priority -->
+    <div class="card-item" data-issuer="chase" data-fee="low" data-type="travel" data-airlines="southwest">
+      <div class="card-header">
+        <div class="card-chip" style="background:linear-gradient(135deg,#304cb2,#1a3a9a)"></div>
+        <div>
+          <div class="card-title">Southwest Rapid Rewards Priority</div>
+          <div class="card-issuer">Chase · Visa</div>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-type">✈️ Travel</span>
+        <span class="tag tag-airline">🟡 Southwest</span>
+      </div>
+      <div class="card-divider"></div>
+      <div class="card-stats">
+        <div class="stat-item"><div class="stat-label">Annual Fee</div><div class="stat-value gold">$149</div></div>
+        <div class="stat-item"><div class="stat-label">Reward Rate</div><div class="stat-value">3x on Southwest</div></div>
+        <div class="stat-item"><div class="stat-label">Network</div><div class="stat-value">Visa</div></div>
+        <div class="stat-item"><div class="stat-label">Credit Needed</div><div class="stat-value">Good–Excellent</div></div>
+      </div>
+      <div class="card-bonus">
+        <div class="bonus-label">Sign-up Bonus</div>
+        <div class="bonus-value">50,000 pts after $1,000 spend in 3 months</div>
+      </div>
+      <div class="card-perks">
+        <div class="perk-item"><div class="perk-dot"></div>$75 annual Southwest travel credit</div>
+        <div class="perk-item"><div class="perk-dot"></div>4 upgraded boardings per year</div>
+        <div class="perk-item"><div class="perk-dot"></div>Earns toward Companion Pass</div>
+        <div class="perk-item"><div class="perk-dot"></div>7,500 anniversary bonus points</div>
+      </div>
+      <div class="card-airlines">
+        <div class="airlines-label">Airline Partners</div>
+        <div class="airline-pills"><span class="airline-pill">Southwest (primary)</span></div>
+      </div>
+      <a href="https://creditcards.chase.com/travel-credit-cards/southwest-rapid-rewards/priority" target="_blank" rel="noopener noreferrer" class="card-apply">Apply Now →</a>
+    </div>
+
+    <!-- United Explorer -->
+    <div class="card-item" data-issuer="chase" data-fee="low" data-type="travel" data-airlines="united">
+      <div class="card-header">
+        <div class="card-chip" style="background:linear-gradient(135deg,#002244,#003a7a)"></div>
+        <div>
+          <div class="card-title">United Explorer Card</div>
+          <div class="card-issuer">Chase · Visa Signature</div>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-type">✈️ Travel</span>
+        <span class="tag tag-airline">🔵 United</span>
+      </div>
+      <div class="card-divider"></div>
+      <div class="card-stats">
+        <div class="stat-item"><div class="stat-label">Annual Fee</div><div class="stat-value gold">$95</div></div>
+        <div class="stat-item"><div class="stat-label">Reward Rate</div><div class="stat-value">2x on United & Dining</div></div>
+        <div class="stat-item"><div class="stat-label">Network</div><div class="stat-value">Visa</div></div>
+        <div class="stat-item"><div class="stat-label">Credit Needed</div><div class="stat-value">Good–Excellent</div></div>
+      </div>
+      <div class="card-bonus">
+        <div class="bonus-label">Sign-up Bonus</div>
+        <div class="bonus-value">60,000 miles after $3,000 spend in 3 months</div>
+      </div>
+      <div class="card-perks">
+        <div class="perk-item"><div class="perk-dot"></div>2 United Club passes per year</div>
+        <div class="perk-item"><div class="perk-dot"></div>First checked bag free for you + companion</div>
+        <div class="perk-item"><div class="perk-dot"></div>Priority boarding on United flights</div>
+        <div class="perk-item"><div class="perk-dot"></div>25% back on United in-flight purchases</div>
+      </div>
+      <div class="card-airlines">
+        <div class="airlines-label">Airline Partners</div>
+        <div class="airline-pills"><span class="airline-pill">United (primary)</span><span class="airline-pill">Star Alliance</span></div>
+      </div>
+      <a href="https://creditcards.chase.com/travel-credit-cards/united/united-explorer-card" target="_blank" rel="noopener noreferrer" class="card-apply">Apply Now →</a>
+    </div>
+
+    <!-- Discover it Cash Back -->
+    <div class="card-item" data-issuer="discover" data-fee="no-fee" data-type="cash-back" data-airlines="">
+      <div class="card-header">
+        <div class="card-chip" style="background:linear-gradient(135deg,#f76f20,#e05010)"></div>
+        <div>
+          <div class="card-title">Discover it Cash Back</div>
+          <div class="card-issuer">Discover</div>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-type">💵 Cash Back</span>
+        <span class="tag tag-type">🔄 Rotating Categories</span>
+      </div>
+      <div class="card-divider"></div>
+      <div class="card-stats">
+        <div class="stat-item"><div class="stat-label">Annual Fee</div><div class="stat-value gold">$0</div></div>
+        <div class="stat-item"><div class="stat-label">Reward Rate</div><div class="stat-value">5% Rotating, 1% All</div></div>
+        <div class="stat-item"><div class="stat-label">Network</div><div class="stat-value">Discover</div></div>
+        <div class="stat-item"><div class="stat-label">Credit Needed</div><div class="stat-value">Fair–Good</div></div>
+      </div>
+      <div class="card-bonus">
+        <div class="bonus-label">Sign-up Bonus</div>
+        <div class="bonus-value">Cashback Match™ — doubles all cash back in year 1</div>
+      </div>
+      <div class="card-perks">
+        <div class="perk-item"><div class="perk-dot"></div>5% on rotating quarterly categories</div>
+        <div class="perk-item"><div class="perk-dot"></div>Cashback Match in first year (no cap)</div>
+        <div class="perk-item"><div class="perk-dot"></div>No annual fee</div>
+        <div class="perk-item"><div class="perk-dot"></div>Free Social Security number alerts</div>
+      </div>
+      <div class="card-airlines">
+        <div class="airlines-label">Airline Transfer Partners</div>
+        <div class="airline-pills"><span class="airline-pill">None — cash back card</span></div>
+      </div>
+      <a href="https://www.discover.com/credit-cards/cash-back/it-card.html" target="_blank" rel="noopener noreferrer" class="card-apply">Apply Now →</a>
+    </div>
+
+    <!-- Bank of America Travel Rewards -->
+    <div class="card-item" data-issuer="bank-of-america" data-fee="no-fee" data-type="travel" data-airlines="any">
+      <div class="card-header">
+        <div class="card-chip" style="background:linear-gradient(135deg,#e31837,#a01020)"></div>
+        <div>
+          <div class="card-title">Bank of America Travel Rewards</div>
+          <div class="card-issuer">Bank of America · Visa</div>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-type">✈️ Travel</span>
+        <span class="tag tag-type">🌐 Flexible</span>
+      </div>
+      <div class="card-divider"></div>
+      <div class="card-stats">
+        <div class="stat-item"><div class="stat-label">Annual Fee</div><div class="stat-value gold">$0</div></div>
+        <div class="stat-item"><div class="stat-label">Reward Rate</div><div class="stat-value">1.5x on Everything</div></div>
+        <div class="stat-item"><div class="stat-label">Network</div><div class="stat-value">Visa</div></div>
+        <div class="stat-item"><div class="stat-label">Credit Needed</div><div class="stat-value">Good–Excellent</div></div>
+      </div>
+      <div class="card-bonus">
+        <div class="bonus-label">Sign-up Bonus</div>
+        <div class="bonus-value">25,000 pts after $1,000 spend in 90 days</div>
+      </div>
+      <div class="card-perks">
+        <div class="perk-item"><div class="perk-dot"></div>1.5x points on all purchases</div>
+        <div class="perk-item"><div class="perk-dot"></div>No foreign transaction fees</div>
+        <div class="perk-item"><div class="perk-dot"></div>No annual fee</div>
+        <div class="perk-item"><div class="perk-dot"></div>Redeem for any travel purchase</div>
+      </div>
+      <div class="card-airlines">
+        <div class="airlines-label">Airline Transfer Partners</div>
+        <div class="airline-pills"><span class="airline-pill">Any airline (statement credit)</span></div>
+      </div>
+      <a href="https://www.bankofamerica.com/credit-cards/products/travel-rewards-credit-card/" target="_blank" rel="noopener noreferrer" class="card-apply">Apply Now →</a>
+    </div>
+
+    <!-- Citi Premier -->
+    <div class="card-item" data-issuer="citi" data-fee="low" data-type="travel" data-airlines="any">
+      <div class="card-header">
+        <div class="card-chip" style="background:linear-gradient(135deg,#003b70,#005ab5)"></div>
+        <div>
+          <div class="card-title">Citi Strata Premier</div>
+          <div class="card-issuer">Citi · Mastercard</div>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-type">✈️ Travel</span>
+        <span class="tag tag-type">🍽️ Dining</span>
+        <span class="tag tag-type">🛒 Groceries</span>
+      </div>
+      <div class="card-divider"></div>
+      <div class="card-stats">
+        <div class="stat-item"><div class="stat-label">Annual Fee</div><div class="stat-value gold">$95</div></div>
+        <div class="stat-item"><div class="stat-label">Reward Rate</div><div class="stat-value">3x Travel, Dining, Grocery</div></div>
+        <div class="stat-item"><div class="stat-label">Network</div><div class="stat-value">Mastercard</div></div>
+        <div class="stat-item"><div class="stat-label">Credit Needed</div><div class="stat-value">Good–Excellent</div></div>
+      </div>
+      <div class="card-bonus">
+        <div class="bonus-label">Sign-up Bonus</div>
+        <div class="bonus-value">60,000 pts after $4,000 spend in 3 months</div>
+      </div>
+      <div class="card-perks">
+        <div class="perk-item"><div class="perk-dot"></div>$100 annual hotel savings benefit</div>
+        <div class="perk-item"><div class="perk-dot"></div>3x on air travel, hotels, dining, groceries, gas</div>
+        <div class="perk-item"><div class="perk-dot"></div>Transfer points to 18 airline partners</div>
+        <div class="perk-item"><div class="perk-dot"></div>No foreign transaction fees</div>
+      </div>
+      <div class="card-airlines">
+        <div class="airlines-label">Airline Transfer Partners</div>
+        <div class="airline-pills"><span class="airline-pill">18 partners including Turkish, Singapore, Virgin</span></div>
+      </div>
+      <a href="https://www.citi.com/credit-cards/citi-strata-premier-credit-card" target="_blank" rel="noopener noreferrer" class="card-apply">Apply Now →</a>
+    </div>
+
+    <!-- Chase Freedom Unlimited -->
+    <div class="card-item" data-issuer="chase" data-fee="no-fee" data-type="cash-back" data-airlines="">
+      <div class="card-header">
+        <div class="card-chip" style="background:linear-gradient(135deg,#1a3a6a,#2a5aaa)"></div>
+        <div>
+          <div class="card-title">Chase Freedom Unlimited</div>
+          <div class="card-issuer">Chase · Visa</div>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-type">💵 Cash Back</span>
+        <span class="tag tag-type">🍽️ Dining</span>
+      </div>
+      <div class="card-divider"></div>
+      <div class="card-stats">
+        <div class="stat-item"><div class="stat-label">Annual Fee</div><div class="stat-value gold">$0</div></div>
+        <div class="stat-item"><div class="stat-label">Reward Rate</div><div class="stat-value">1.5% on Everything</div></div>
+        <div class="stat-item"><div class="stat-label">Network</div><div class="stat-value">Visa</div></div>
+        <div class="stat-item"><div class="stat-label">Credit Needed</div><div class="stat-value">Fair–Good</div></div>
+      </div>
+      <div class="card-bonus">
+        <div class="bonus-label">Sign-up Bonus</div>
+        <div class="bonus-value">$200 after $500 spend in 3 months</div>
+      </div>
+      <div class="card-perks">
+        <div class="perk-item"><div class="perk-dot"></div>1.5% back on all purchases</div>
+        <div class="perk-item"><div class="perk-dot"></div>3% on dining and drugstores</div>
+        <div class="perk-item"><div class="perk-dot"></div>No annual fee</div>
+        <div class="perk-item"><div class="perk-dot"></div>Pairs well with Sapphire cards to boost value</div>
+      </div>
+      <div class="card-airlines">
+        <div class="airlines-label">Airline Transfer Partners</div>
+        <div class="airline-pills"><span class="airline-pill">None — pairs with Sapphire for transfers</span></div>
+      </div>
+      <a href="https://creditcards.chase.com/cash-back-credit-cards/freedom/unlimited" target="_blank" rel="noopener noreferrer" class="card-apply">Apply Now →</a>
+    </div>
+
+    <!-- Amex Blue Cash Preferred -->
+    <div class="card-item" data-issuer="amex" data-fee="low" data-type="cash-back" data-airlines="">
+      <div class="card-header">
+        <div class="card-chip" style="background:linear-gradient(135deg,#1a4a8a,#2a6acc)"></div>
+        <div>
+          <div class="card-title">Amex Blue Cash Preferred</div>
+          <div class="card-issuer">American Express</div>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-type">🛒 Groceries</span>
+        <span class="tag tag-type">💵 Cash Back</span>
+        <span class="tag tag-type">📺 Streaming</span>
+      </div>
+      <div class="card-divider"></div>
+      <div class="card-stats">
+        <div class="stat-item"><div class="stat-label">Annual Fee</div><div class="stat-value gold">$95</div></div>
+        <div class="stat-item"><div class="stat-label">Reward Rate</div><div class="stat-value">6% US Supermarkets</div></div>
+        <div class="stat-item"><div class="stat-label">Network</div><div class="stat-value">Amex</div></div>
+        <div class="stat-item"><div class="stat-label">Credit Needed</div><div class="stat-value">Good–Excellent</div></div>
+      </div>
+      <div class="card-bonus">
+        <div class="bonus-label">Sign-up Bonus</div>
+        <div class="bonus-value">$250 statement credit after $3,000 spend in 6 months</div>
+      </div>
+      <div class="card-perks">
+        <div class="perk-item"><div class="perk-dot"></div>6% back at US supermarkets (up to $6k/yr)</div>
+        <div class="perk-item"><div class="perk-dot"></div>6% on select US streaming services</div>
+        <div class="perk-item"><div class="perk-dot"></div>3% on US gas stations and transit</div>
+        <div class="perk-item"><div class="perk-dot"></div>$84 Disney Bundle credit annually</div>
+      </div>
+      <div class="card-airlines">
+        <div class="airlines-label">Airline Transfer Partners</div>
+        <div class="airline-pills"><span class="airline-pill">None — cash back card</span></div>
+      </div>
+      <a href="https://www.americanexpress.com/us/credit-cards/card/blue-cash-preferred/" target="_blank" rel="noopener noreferrer" class="card-apply">Apply Now →</a>
+    </div>
+
+    <!-- Capital One Venture -->
+    <div class="card-item" data-issuer="capital-one" data-fee="low" data-type="travel" data-airlines="any">
+      <div class="card-header">
+        <div class="card-chip" style="background:linear-gradient(135deg,#001a33,#003060)"></div>
+        <div>
+          <div class="card-title">Capital One Venture Rewards</div>
+          <div class="card-issuer">Capital One · Visa Signature</div>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-type">✈️ Travel</span>
+        <span class="tag tag-type">🔄 Flexible Miles</span>
+      </div>
+      <div class="card-divider"></div>
+      <div class="card-stats">
+        <div class="stat-item"><div class="stat-label">Annual Fee</div><div class="stat-value gold">$95</div></div>
+        <div class="stat-item"><div class="stat-label">Reward Rate</div><div class="stat-value">2x on Everything</div></div>
+        <div class="stat-item"><div class="stat-label">Network</div><div class="stat-value">Visa</div></div>
+        <div class="stat-item"><div class="stat-label">Credit Needed</div><div class="stat-value">Good–Excellent</div></div>
+      </div>
+      <div class="card-bonus">
+        <div class="bonus-label">Sign-up Bonus</div>
+        <div class="bonus-value">75,000 miles after $4,000 spend in 3 months</div>
+      </div>
+      <div class="card-perks">
+        <div class="perk-item"><div class="perk-dot"></div>2x miles on every purchase</div>
+        <div class="perk-item"><div class="perk-dot"></div>5x on hotels and rental cars via Capital One Travel</div>
+        <div class="perk-item"><div class="perk-dot"></div>Global Entry / TSA PreCheck credit</div>
+        <div class="perk-item"><div class="perk-dot"></div>No foreign transaction fees</div>
+      </div>
+      <div class="card-airlines">
+        <div class="airlines-label">Airline Transfer Partners</div>
+        <div class="airline-pills"><span class="airline-pill">Any airline (via Capital One Travel)</span></div>
+      </div>
+      <a href="https://www.capitalone.com/credit-cards/venture/" target="_blank" rel="noopener noreferrer" class="card-apply">Apply Now →</a>
+    </div>
+
+    <!-- Ink Business Preferred -->
+    <div class="card-item" data-issuer="chase" data-fee="low" data-type="business" data-airlines="united southwest british air_france">
+      <div class="card-header">
+        <div class="card-chip" style="background:linear-gradient(135deg,#1a2a1a,#2a4a2a)"></div>
+        <div>
+          <div class="card-title">Ink Business Preferred</div>
+          <div class="card-issuer">Chase · Visa Signature</div>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-type">💼 Business</span>
+        <span class="tag tag-type">✈️ Travel</span>
+      </div>
+      <div class="card-divider"></div>
+      <div class="card-stats">
+        <div class="stat-item"><div class="stat-label">Annual Fee</div><div class="stat-value gold">$95</div></div>
+        <div class="stat-item"><div class="stat-label">Reward Rate</div><div class="stat-value">3x on Business Spend</div></div>
+        <div class="stat-item"><div class="stat-label">Network</div><div class="stat-value">Visa</div></div>
+        <div class="stat-item"><div class="stat-label">Credit Needed</div><div class="stat-value">Good–Excellent</div></div>
+      </div>
+      <div class="card-bonus">
+        <div class="bonus-label">Sign-up Bonus</div>
+        <div class="bonus-value">90,000 pts after $8,000 spend in 3 months</div>
+      </div>
+      <div class="card-perks">
+        <div class="perk-item"><div class="perk-dot"></div>3x on travel, shipping, ads, internet, phone</div>
+        <div class="perk-item"><div class="perk-dot"></div>Cell phone protection up to $1,000</div>
+        <div class="perk-item"><div class="perk-dot"></div>Trip cancellation / interruption insurance</div>
+        <div class="perk-item"><div class="perk-dot"></div>Employee cards at no extra cost</div>
+      </div>
+      <div class="card-airlines">
+        <div class="airlines-label">Airline Transfer Partners</div>
+        <div class="airline-pills">
+          <span class="airline-pill">United</span>
+          <span class="airline-pill">Southwest</span>
+          <span class="airline-pill">British Airways</span>
+          <span class="airline-pill">Air France/KLM</span>
+        </div>
+      </div>
+      <a href="https://creditcards.chase.com/business-credit-cards/ink/preferred" target="_blank" rel="noopener noreferrer" class="card-apply">Apply Now →</a>
+    </div>
+
+    <!-- Amex Business Platinum -->
+    <div class="card-item" data-issuer="amex" data-fee="premium" data-type="business" data-airlines="delta british air_france emirates lufthansa">
+      <div class="card-header">
+        <div class="card-chip" style="background:linear-gradient(135deg,#6a5a3a,#aa9060)"></div>
+        <div>
+          <div class="card-title">Amex Business Platinum</div>
+          <div class="card-issuer">American Express</div>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-type">💼 Business</span>
+        <span class="tag tag-type">✈️ Travel</span>
+        <span class="tag tag-airline">🏆 Premium</span>
+      </div>
+      <div class="card-divider"></div>
+      <div class="card-stats">
+        <div class="stat-item"><div class="stat-label">Annual Fee</div><div class="stat-value gold">$695</div></div>
+        <div class="stat-item"><div class="stat-label">Reward Rate</div><div class="stat-value">5x on Flights & Hotels</div></div>
+        <div class="stat-item"><div class="stat-label">Network</div><div class="stat-value">Amex</div></div>
+        <div class="stat-item"><div class="stat-label">Credit Needed</div><div class="stat-value">Excellent</div></div>
+      </div>
+      <div class="card-bonus">
+        <div class="bonus-label">Sign-up Bonus</div>
+        <div class="bonus-value">150,000 pts after $20,000 spend in 3 months</div>
+      </div>
+      <div class="card-perks">
+        <div class="perk-item"><div class="perk-dot"></div>$200 airline fee credit</div>
+        <div class="perk-item"><div class="perk-dot"></div>Centurion + Priority Pass lounges</div>
+        <div class="perk-item"><div class="perk-dot"></div>35% points back on flights booked with Amex Travel</div>
+        <div class="perk-item"><div class="perk-dot"></div>Up to $400 Dell credit annually</div>
+      </div>
+      <div class="card-airlines">
+        <div class="airlines-label">Airline Transfer Partners</div>
+        <div class="airline-pills">
+          <span class="airline-pill">Delta</span>
+          <span class="airline-pill">British Airways</span>
+          <span class="airline-pill">Air France/KLM</span>
+          <span class="airline-pill">Emirates</span>
+        </div>
+      </div>
+      <a href="https://www.americanexpress.com/us/credit-cards/business/business-credit-cards/american-express-business-platinum-credit-card/" target="_blank" rel="noopener noreferrer" class="card-apply">Apply Now →</a>
+    </div>
+
+  </div>
+
+  <div class="no-results" id="no-results">
+    <div class="no-results-title">No cards match your filters</div>
+    <div class="no-results-sub">Try adjusting your filters or reset to see all cards.</div>
+    <button class="reset-btn" onclick="resetFilters()">Reset Filters</button>
+  </div>
+</div>
+
+<div class="disc">
+  <div class="disc-inner">
+    <div class="disc-title">Advertiser Disclosure</div>
+    <div class="disc-text">The Credit Card Compass may receive compensation when you click on links to credit card products and are approved. This compensation may impact which cards appear on this site. However, our editorial content, scores, and rankings are never influenced by compensation. Card terms, offers, and annual fees are subject to change — always verify current details on the issuer's website before applying.</div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">The Credit Card <span>Compass</span></div>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="index.html#quiz-section">Find My Card</a>
+    <a href="cards.html">Compare Cards</a>
+    <a href="index.html#about">About</a>
+    <a href="index.html#contact">Contact</a>
+  </div>
+  <div class="footer-copy">© 2025 The Credit Card Compass. All rights reserved.</div>
+</footer>
+
+<script>
+const filters = { issuer: 'all', fee: 'all', type: 'all', airline: 'all' };
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const filterType = btn.dataset.filter;
+    const filterValue = btn.dataset.value;
+    filters[filterType] = filterValue;
+    document.querySelectorAll(`[data-filter="${filterType}"]`).forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    applyFilters();
+  });
+});
+
+function applyFilters() {
+  const cards = document.querySelectorAll('.card-item');
+  let visible = 0;
+  cards.forEach(card => {
+    const issuerMatch = filters.issuer === 'all' || card.dataset.issuer === filters.issuer;
+    const feeMatch = filters.fee === 'all' || card.dataset.fee === filters.fee;
+    const typeMatch = filters.type === 'all' || card.dataset.type === filters.type;
+    const airlineMatch = filters.airline === 'all' || card.dataset.airlines.includes(filters.airline);
+    if (issuerMatch && feeMatch && typeMatch && airlineMatch) {
+      card.classList.remove('hidden');
+      visible++;
+    } else {
+      card.classList.add('hidden');
+    }
+  });
+  document.getElementById('results-count').textContent = `Showing ${visible} card${visible !== 1 ? 's' : ''}`;
+  document.getElementById('no-results').style.display = visible === 0 ? 'block' : 'none';
+}
+
+function resetFilters() {
+  Object.keys(filters).forEach(k => filters[k] = 'all');
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.value === 'all');
+  });
+  applyFilters();
+}
+</script>
+</body>
+</html>

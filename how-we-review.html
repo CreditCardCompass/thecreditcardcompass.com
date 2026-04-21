@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How We Review Credit Cards — The Credit Card Compass</title>
+<meta name="description" content="Our methodology for reviewing and rating credit cards — the criteria we use, how we weight them, and how we maintain editorial independence.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#c8aa50;--gold-light:#e0c870;--dark:#0a0a14;--dark3:#1a1f2e;--text:#f0ede6;--muted:#888;--border:rgba(255,255,255,0.08);}
+*{box-sizing:border-box;margin:0;padding:0;}html{scroll-behavior:smooth;}
+body{background:var(--dark);color:var(--text);font-family:'DM Sans',sans-serif;line-height:1.7;}
+nav{position:sticky;top:0;z-index:100;background:rgba(10,10,20,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 5%;display:flex;align-items:center;justify-content:space-between;height:64px;}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;}.logo-text{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--text);}.logo-text span{color:var(--gold);}
+.nav-links{display:flex;gap:28px;list-style:none;}.nav-links a{color:var(--muted);text-decoration:none;font-size:14px;transition:color 0.2s;}.nav-links a:hover,.nav-links a.active{color:var(--gold);}
+.nav-cta{background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--dark);border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;text-decoration:none;}
+.page-header{padding:60px 5% 40px;background:radial-gradient(ellipse at 20% 50%,rgba(200,170,80,0.06) 0%,transparent 60%);border-bottom:1px solid var(--border);}
+.page-header-inner{max-width:800px;margin:0 auto;}
+.eyebrow{font-size:11px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+.page-title{font-family:'Playfair Display',serif;font-size:clamp(32px,4vw,48px);font-weight:900;margin-bottom:12px;}
+.page-sub{font-size:16px;color:var(--muted);max-width:560px;line-height:1.6;}
+.content{max-width:800px;margin:0 auto;padding:48px 5%;}
+.content h2{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;margin:36px 0 14px;color:var(--text);}
+.content h3{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;margin:24px 0 10px;color:var(--gold);}
+.content p{font-size:15px;color:#ccc;line-height:1.85;margin-bottom:16px;}
+.content ul{margin:0 0 16px 20px;}.content ul li{font-size:15px;color:#ccc;line-height:1.8;margin-bottom:6px;}
+.content a{color:var(--gold);text-decoration:none;}.content a:hover{text-decoration:underline;}
+.highlight-box{background:rgba(200,170,80,0.06);border:1px solid rgba(200,170,80,0.15);border-radius:12px;padding:20px 24px;margin:24px 0;}
+.highlight-box p{color:#bbb;font-size:14px;margin-bottom:0;}.highlight-box strong{color:var(--gold);}
+.divider{height:1px;background:var(--border);margin:32px 0;}
+footer{background:var(--dark);border-top:1px solid var(--border);padding:28px 5%;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+.footer-logo{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;}.footer-logo span{color:var(--gold);}
+.footer-links{display:flex;gap:20px;flex-wrap:wrap;}.footer-links a{font-size:13px;color:#444;text-decoration:none;}.footer-links a:hover{color:var(--muted);}
+.footer-copy{font-size:12px;color:#333;}
+@media(max-width:768px){.nav-links{display:none;}.content{padding:32px 5%;}}
+.criteria-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:24px 0;}
+.criteria-card{background:var(--dark3);border:1px solid var(--border);border-radius:12px;padding:20px;}
+.criteria-icon{font-size:24px;margin-bottom:10px;}
+.criteria-name{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;margin-bottom:6px;}
+.criteria-weight{font-size:12px;color:var(--gold);margin-bottom:8px;font-weight:500;}
+.criteria-desc{font-size:13px;color:var(--muted);line-height:1.6;}
+.rating-scale{background:var(--dark3);border:1px solid var(--border);border-radius:12px;padding:24px;margin:24px 0;}
+.rating-row-item{display:flex;align-items:center;gap:16px;padding:10px 0;border-bottom:1px solid var(--border);}
+.rating-row-item:last-child{border-bottom:none;}
+.rating-score{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:var(--gold);width:48px;flex-shrink:0;}
+.rating-stars-sm{color:var(--gold);font-size:13px;width:80px;flex-shrink:0;}
+.rating-desc{font-size:13px;color:#bbb;}
+@media(max-width:600px){.criteria-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="logo"><svg width="26" height="26" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="13" stroke="#c8aa50" stroke-width="1.2"/><circle cx="14" cy="14" r="2" fill="#c8aa50"/><line x1="14" y1="1.5" x2="14" y2="7.5" stroke="#c8aa50" stroke-width="1.5" stroke-linecap="round"/><line x1="14" y1="20.5" x2="14" y2="26.5" stroke="rgba(200,170,80,0.4)" stroke-width="1" stroke-linecap="round"/><line x1="1.5" y1="14" x2="7.5" y2="14" stroke="rgba(200,170,80,0.4)" stroke-width="1" stroke-linecap="round"/><line x1="20.5" y1="14" x2="26.5" y2="14" stroke="rgba(200,170,80,0.4)" stroke-width="1" stroke-linecap="round"/><polygon points="14,4 12.2,9.5 14,8.5 15.8,9.5" fill="#c8aa50"/></svg><span class="logo-text">The Credit Card <span>Compass</span></span></a>
+  <ul class="nav-links"><li><a href="index.html#quiz-section">Find My Card</a></li><li><a href="cards.html">Compare Cards</a></li><li><a href="reviews.html">Reviews</a></li><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li></ul>
+  <a href="index.html#quiz-section" class="nav-cta">Find My Card →</a>
+</nav>
+
+<div class="page-header">
+  <div class="page-header-inner">
+    <div class="eyebrow">Our Methodology</div>
+    <h1 class="page-title">How We Review Credit Cards</h1>
+    <p class="page-sub">Every card on this site is evaluated against the same objective criteria by someone with real financial expertise — not a content algorithm.</p>
+  </div>
+</div>
+
+<div class="content">
+
+  <h2>Our Approach</h2>
+  <p>Most credit card review sites are run by content teams optimizing for search traffic. The Credit Card Compass is different. Our reviews are written by a financial professional with Series 7, 63, and 65 licenses and a Master of Investment Management and Financial Analysis — someone who understands how financial products are structured and how to evaluate their true value.</p>
+  <p>Every card is reviewed against the same set of weighted criteria. Compensation from affiliate relationships plays no role in our ratings. A card earns its score entirely on its own merits.</p>
+
+  <h2>Our Rating Criteria</h2>
+  <p>We evaluate each card across six primary criteria. Here is how we weight them and what we look for in each:</p>
+
+  <div class="criteria-grid">
+    <div class="criteria-card">
+      <div class="criteria-icon">💰</div>
+      <div class="criteria-name">Annual Fee Value</div>
+      <div class="criteria-weight">25% of total score</div>
+      <div class="criteria-desc">We calculate the net annual fee after accounting for all credits and benefits that most cardholders can realistically use. A card with a high fee but generous credits can score well here; a card with a high fee and minimal credits will not.</div>
+    </div>
+    <div class="criteria-card">
+      <div class="criteria-icon">⭐</div>
+      <div class="criteria-name">Rewards Rate</div>
+      <div class="criteria-weight">25% of total score</div>
+      <div class="criteria-desc">We evaluate earn rates across the categories that matter most — travel, dining, groceries, gas, and everyday spending. We also assess point or mile values, redemption flexibility, and transfer partner quality.</div>
+    </div>
+    <div class="criteria-card">
+      <div class="criteria-icon">🎁</div>
+      <div class="criteria-name">Sign-up Bonus</div>
+      <div class="criteria-weight">20% of total score</div>
+      <div class="criteria-desc">We assess the welcome bonus against the spending requirement needed to earn it. A large bonus with an unreasonable spending threshold scores lower than a modest bonus with an achievable requirement.</div>
+    </div>
+    <div class="criteria-card">
+      <div class="criteria-icon">🛡️</div>
+      <div class="criteria-name">Travel & Purchase Protections</div>
+      <div class="criteria-weight">15% of total score</div>
+      <div class="criteria-desc">Trip cancellation insurance, rental car coverage, purchase protection, extended warranty, and travel delay benefits. We evaluate coverage limits, eligibility requirements, and how practical the protections are in real-world scenarios.</div>
+    </div>
+    <div class="criteria-card">
+      <div class="criteria-icon">🔄</div>
+      <div class="criteria-name">Flexibility & Redemption</div>
+      <div class="criteria-weight">10% of total score</div>
+      <div class="criteria-desc">How easy is it to redeem your rewards? Cards with flexible redemption options — cash back, travel portals, statement credits, and transfer partners — score higher than cards with restrictive or low-value redemption options.</div>
+    </div>
+    <div class="criteria-card">
+      <div class="criteria-icon">📋</div>
+      <div class="criteria-name">Additional Features</div>
+      <div class="criteria-weight">5% of total score</div>
+      <div class="criteria-desc">Lounge access, Global Entry credits, hotel status, airline-specific perks, and other benefits that add genuine value for the right cardholder. We assess these based on their actual real-world utility.</div>
+    </div>
+  </div>
+
+  <h2>Our Rating Scale</h2>
+  <div class="rating-scale">
+    <div class="rating-row-item"><div class="rating-score">4.8–5.0</div><div class="rating-stars-sm">★★★★★</div><div class="rating-desc">Exceptional — best in class for its category. Highly recommended for the right cardholder.</div></div>
+    <div class="rating-row-item"><div class="rating-score">4.5–4.7</div><div class="rating-stars-sm">★★★★★</div><div class="rating-desc">Excellent — strong across all criteria. Recommended with minor caveats.</div></div>
+    <div class="rating-row-item"><div class="rating-score">4.0–4.4</div><div class="rating-stars-sm">★★★★½</div><div class="rating-desc">Very Good — solid card with meaningful strengths and some drawbacks.</div></div>
+    <div class="rating-row-item"><div class="rating-score">3.5–3.9</div><div class="rating-stars-sm">★★★½☆</div><div class="rating-desc">Good — above average, but other cards may offer better value for most people.</div></div>
+    <div class="rating-row-item"><div class="rating-score">Below 3.5</div><div class="rating-stars-sm">★★★☆☆</div><div class="rating-desc">Average or below — only recommended for specific situations or cardholders.</div></div>
+  </div>
+
+  <h2>How We Maintain Independence</h2>
+  <p>The Credit Card Compass earns revenue through affiliate commissions when readers apply for and are approved for credit cards through our links. We disclose this relationship fully on our <a href="affiliate-disclosure.html">Affiliate Disclosure page</a>.</p>
+  <p>To protect editorial independence, our ratings are determined before any affiliate relationship is established with an issuer. Commission rates are not a factor in our scoring process. We include cards on our site that pay lower commissions or no commissions, when those cards genuinely deserve coverage.</p>
+  <p>No issuer has editorial control over our content. We do not accept payment for positive ratings. We update negative information about a card even when we have an affiliate relationship with that issuer.</p>
+
+  <h2>How We Keep Information Current</h2>
+  <p>Credit card terms change frequently — annual fees increase, sign-up bonuses rotate, and benefits are added or removed. We maintain a monthly review process to verify the accuracy of all card information on our site. Each review page displays the date it was last verified.</p>
+  <p>We also monitor industry publications including The Points Guy, NerdWallet, and Doctor of Credit for real-time updates on card changes. If you notice outdated information on our site, please <a href="contact.html">let us know</a> and we will update it promptly.</p>
+
+  <div class="highlight-box">
+    <p><strong>Important:</strong> Card terms, annual fees, sign-up bonuses, and APR are set by the issuer and can change at any time. Always verify current terms on the issuer's official website before applying. Our reviews are for informational purposes only and do not constitute financial advice.</p>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-logo">The Credit Card <span>Compass</span></div>
+  <div class="footer-links">
+    <a href="index.html">Home</a><a href="cards.html">Compare Cards</a><a href="reviews.html">Reviews</a>
+    <a href="about.html">About</a><a href="contact.html">Contact</a>
+    <a href="privacy-policy.html">Privacy Policy</a><a href="affiliate-disclosure.html">Affiliate Disclosure</a><a href="how-we-review.html">How We Review</a>
+  </div>
+  <div class="footer-copy">© 2025 The Credit Card Compass. All rights reserved.</div>
+</footer>
+</body>
+</html>

@@ -102,6 +102,24 @@
   .footer-copy { font-size:12px; color:#333; }
 
   @media(max-width:768px) { .nav-links { display:none; } .filters-inner { gap:8px; } .cards-grid { grid-template-columns:1fr; } }
+
+  /* CARD OF THE MONTH */
+  .cotm-banner { background: linear-gradient(135deg, rgba(200,170,80,0.12), rgba(200,170,80,0.04)); border: 1px solid rgba(200,170,80,0.3); border-radius: 16px; padding: 28px 32px; margin: 0 0 32px; display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; }
+  .cotm-eyebrow { font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+  .cotm-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+  .cotm-sub { font-size: 13px; color: var(--muted); margin-bottom: 14px; line-height: 1.6; }
+  .cotm-bonus { background: rgba(200,170,80,0.1); border: 1px solid rgba(200,170,80,0.2); border-radius: 8px; padding: 10px 14px; display: inline-block; margin-bottom: 16px; }
+  .cotm-bonus-label { font-size: 10px; color: var(--gold); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; }
+  .cotm-bonus-val { font-size: 14px; font-weight: 500; color: var(--text); }
+  .cotm-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+  .cotm-apply { background: linear-gradient(135deg,var(--gold),var(--gold-light)); color: var(--dark); border: none; border-radius: 8px; padding: 10px 20px; font-size: 13px; font-weight: 600; font-family: 'DM Sans', sans-serif; cursor: pointer; text-decoration: none; }
+  .cotm-review { background: transparent; border: 1px solid rgba(200,170,80,0.3); color: var(--gold); border-radius: 8px; padding: 10px 20px; font-size: 13px; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; text-decoration: none; }
+  .cotm-card-visual { width: 180px; height: 115px; border-radius: 12px; background: linear-gradient(135deg,#001f3f,#003d7a); display: flex; flex-direction: column; justify-content: space-between; padding: 16px; flex-shrink: 0; }
+  .cotm-chip { width: 28px; height: 22px; background: rgba(255,255,255,0.15); border-radius: 4px; }
+  .cotm-card-name { font-family: 'Playfair Display', serif; font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.85); }
+  .cotm-card-num { font-size: 9px; color: rgba(255,255,255,0.3); letter-spacing: 2px; }
+  @media(max-width:600px){ .cotm-banner { grid-template-columns: 1fr; } .cotm-card-visual { display: none; } }
+
 </style>
 </head>
 <body>
@@ -123,7 +141,6 @@
     <li><a href="index.html#how">How It Works</a></li>
     <li><a href="index.html#quiz-section">Find My Card</a></li>
     <li><a href="cards.html" class="active">Compare Cards</a></li>
-    <li><a href="reviews.html">Reviews</a></li>
     <li><a href="index.html#about">About</a></li>
     <li><a href="index.html#contact">Contact</a></li>
   </ul>
@@ -150,6 +167,8 @@
       <button class="filter-btn" data-filter="issuer" data-value="wells-fargo">Wells Fargo</button>
       <button class="filter-btn" data-filter="issuer" data-value="discover">Discover</button>
       <button class="filter-btn" data-filter="issuer" data-value="bank-of-america">Bank of America</button>
+      <button class="filter-btn" data-filter="issuer" data-value="barclays">Luxury Card</button>
+      <button class="filter-btn" data-filter="issuer" data-value="paypal">PayPal / Venmo</button>
     </div>
     <div class="filter-divider"></div>
     <span class="filter-label">Fee:</span>
@@ -179,9 +198,38 @@
       <button class="filter-btn" data-filter="airline" data-value="american">American</button>
       <button class="filter-btn" data-filter="airline" data-value="any">Flexible</button>
     </div>
-    <span class="results-count" id="results-count">Showing 18 cards</span>
+    <span class="results-count" id="results-count">Showing 22 cards</span>
   </div>
 </div>
+
+
+  <!-- CARD OF THE MONTH -->
+  <div class="cards-main" style="padding-bottom:0">
+    <div style="max-width:1200px;margin:0 auto;">
+      <div class="cotm-banner">
+        <div>
+          <div class="cotm-eyebrow">✨ Card of the Month — April 2026</div>
+          <div class="cotm-title">Capital One Venture X</div>
+          <div class="cotm-sub">The best-value premium travel card available right now. After the $300 travel credit and 10,000 anniversary miles, the effective annual fee is nearly $0 — with full Priority Pass lounge access included.</div>
+          <div class="cotm-bonus">
+            <div class="cotm-bonus-label">Current Sign-up Bonus</div>
+            <div class="cotm-bonus-val">75,000 miles after $4,000 spend in 3 months</div>
+          </div>
+          <div class="cotm-btns">
+            <a href="https://www.capitalone.com/credit-cards/venture-x/" target="_blank" rel="noopener noreferrer" class="cotm-apply">Apply Now →</a>
+            <a href="capital-one-venture-x-review.html" class="cotm-review">Read Our Review</a>
+          </div>
+        </div>
+        <div class="cotm-card-visual">
+          <div class="cotm-chip"></div>
+          <div>
+            <div class="cotm-card-name">VENTURE X</div>
+            <div class="cotm-card-num">•••• •••• •••• 3312</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 <div class="cards-main">
   <div class="cards-grid" id="cards-grid">
@@ -227,10 +275,7 @@
           <span class="airline-pill">Delta (via transfer)</span>
         </div>
       </div>
-      <div class="card-btns">
-        <a href="chase-sapphire-reserve-review.html" class="card-review-btn">Read Review</a>
-        <a href="https://creditcards.chase.com/rewards-credit-cards/sapphire/reserve" target="_blank" rel="noopener noreferrer" class="card-apply">Apply Now →</a>
-      </div>
+      <a href="https://creditcards.chase.com/rewards-credit-cards/sapphire/reserve" target="_blank" rel="noopener noreferrer" class="card-apply">Apply Now →</a>
     </div>
 
     <!-- Amex Platinum -->
@@ -898,6 +943,166 @@
 
   </div>
 
+    <!-- Luxury Card Black -->
+    <div class="card-item" data-issuer="barclays" data-fee="premium" data-type="travel" data-airlines="">
+      <div class="card-header">
+        <div class="card-chip" style="background:linear-gradient(135deg,#1a1a1a,#3a3a3a)"></div>
+        <div>
+          <div class="card-title">Luxury Card Black</div>
+          <div class="card-issuer">Barclays · Mastercard</div>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-type">🏆 Prestige</span>
+        <span class="tag tag-type">🛋️ Lounges</span>
+        <span class="tag tag-type">🤵 Concierge</span>
+      </div>
+      <div class="card-divider"></div>
+      <div class="card-stats">
+        <div class="stat-item"><div class="stat-label">Annual Fee</div><div class="stat-value gold">$699</div></div>
+        <div class="stat-item"><div class="stat-label">Reward Rate</div><div class="stat-value">1x everything, 2x airfare value</div></div>
+        <div class="stat-item"><div class="stat-label">Network</div><div class="stat-value">Mastercard</div></div>
+        <div class="stat-item"><div class="stat-label">Credit Needed</div><div class="stat-value">Excellent</div></div>
+      </div>
+      <div class="card-bonus">
+        <div class="bonus-label">Sign-up Bonus</div>
+        <div class="bonus-value">No sign-up bonus</div>
+      </div>
+      <div class="card-perks">
+        <div class="perk-item"><div class="perk-dot"></div>Black PVD-coated metal card</div>
+        <div class="perk-item"><div class="perk-dot"></div>Priority Pass lounge access</div>
+        <div class="perk-item"><div class="perk-dot"></div>$100 airline credit (automatic)</div>
+        <div class="perk-item"><div class="perk-dot"></div>$120 Global Entry / TSA PreCheck</div>
+        <div class="perk-item"><div class="perk-dot"></div>$100 dining credit</div>
+        <div class="perk-item"><div class="perk-dot"></div>24/7 Luxury Card Concierge</div>
+      </div>
+      <div class="card-airlines">
+        <div class="airlines-label">Airline Transfer Partners</div>
+        <div class="airline-pills"><span class="airline-pill">None — points redeem for airfare at 2¢ each</span></div>
+      </div>
+      <div class="card-btns">
+        <a href="luxury-card-review.html" class="card-review-btn">Read Review</a>
+        <a href="https://www.luxurycard.com/blackcard" target="_blank" rel="noopener noreferrer" class="card-apply">Apply Now →</a>
+      </div>
+    </div>
+
+    <!-- Luxury Card Gold -->
+    <div class="card-item" data-issuer="barclays" data-fee="premium" data-type="travel" data-airlines="">
+      <div class="card-header">
+        <div class="card-chip" style="background:linear-gradient(135deg,#8a6a10,#c8aa50)"></div>
+        <div>
+          <div class="card-title">Luxury Card Gold</div>
+          <div class="card-issuer">Barclays · Mastercard</div>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-type">🏆 Prestige</span>
+        <span class="tag tag-type">🛋️ Lounges</span>
+        <span class="tag tag-airline">✨ 24K Gold</span>
+      </div>
+      <div class="card-divider"></div>
+      <div class="card-stats">
+        <div class="stat-item"><div class="stat-label">Annual Fee</div><div class="stat-value gold">$1,199</div></div>
+        <div class="stat-item"><div class="stat-label">Reward Rate</div><div class="stat-value">1x everything, 2x airfare & cash back</div></div>
+        <div class="stat-item"><div class="stat-label">Network</div><div class="stat-value">Mastercard</div></div>
+        <div class="stat-item"><div class="stat-label">Credit Needed</div><div class="stat-value">Excellent</div></div>
+      </div>
+      <div class="card-bonus">
+        <div class="bonus-label">Sign-up Bonus</div>
+        <div class="bonus-value">No sign-up bonus</div>
+      </div>
+      <div class="card-perks">
+        <div class="perk-item"><div class="perk-dot"></div>24-karat gold-plated metal card</div>
+        <div class="perk-item"><div class="perk-dot"></div>Priority Pass (unlimited guest access)</div>
+        <div class="perk-item"><div class="perk-dot"></div>$300 airline credit (automatic)</div>
+        <div class="perk-item"><div class="perk-dot"></div>$200 dining credit</div>
+        <div class="perk-item"><div class="perk-dot"></div>$120 Global Entry / TSA PreCheck</div>
+        <div class="perk-item"><div class="perk-dot"></div>24/7 Luxury Card Concierge</div>
+      </div>
+      <div class="card-airlines">
+        <div class="airlines-label">Airline Transfer Partners</div>
+        <div class="airline-pills"><span class="airline-pill">None — points redeem for airfare at 2¢ each</span></div>
+      </div>
+      <div class="card-btns">
+        <a href="luxury-card-review.html" class="card-review-btn">Read Review</a>
+        <a href="https://www.luxurycard.com/goldcard" target="_blank" rel="noopener noreferrer" class="card-apply">Apply Now →</a>
+      </div>
+    </div>
+
+    <!-- Venmo Credit Card -->
+    <div class="card-item" data-issuer="paypal" data-fee="no-fee" data-type="cash-back" data-airlines="">
+      <div class="card-header">
+        <div class="card-chip" style="background:linear-gradient(135deg,#008cff,#0070cc)"></div>
+        <div>
+          <div class="card-title">Venmo Credit Card</div>
+          <div class="card-issuer">Synchrony · Visa</div>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-type">💵 Cash Back</span>
+        <span class="tag tag-type">📱 Digital First</span>
+      </div>
+      <div class="card-divider"></div>
+      <div class="card-stats">
+        <div class="stat-item"><div class="stat-label">Annual Fee</div><div class="stat-value gold">$0</div></div>
+        <div class="stat-item"><div class="stat-label">Reward Rate</div><div class="stat-value">3% top category, 2% second, 1% other</div></div>
+        <div class="stat-item"><div class="stat-label">Network</div><div class="stat-value">Visa</div></div>
+        <div class="stat-item"><div class="stat-label">Credit Needed</div><div class="stat-value">Good</div></div>
+      </div>
+      <div class="card-bonus">
+        <div class="bonus-label">Sign-up Bonus</div>
+        <div class="bonus-value">Check current offer on Venmo's website</div>
+      </div>
+      <div class="card-perks">
+        <div class="perk-item"><div class="perk-dot"></div>3% on your top eligible spend category automatically</div>
+        <div class="perk-item"><div class="perk-dot"></div>2% on second top category</div>
+        <div class="perk-item"><div class="perk-dot"></div>Cash back deposited directly to Venmo balance</div>
+        <div class="perk-item"><div class="perk-dot"></div>No annual fee, no foreign transaction fees</div>
+      </div>
+      <div class="card-airlines">
+        <div class="airlines-label">Airline Transfer Partners</div>
+        <div class="airline-pills"><span class="airline-pill">None — cash back card</span></div>
+      </div>
+      <a href="https://venmo.com/card/" target="_blank" rel="noopener noreferrer" class="card-apply">Apply Now →</a>
+    </div>
+
+    <!-- PayPal Cashback Mastercard -->
+    <div class="card-item" data-issuer="paypal" data-fee="no-fee" data-type="cash-back" data-airlines="">
+      <div class="card-header">
+        <div class="card-chip" style="background:linear-gradient(135deg,#003087,#009cde)"></div>
+        <div>
+          <div class="card-title">PayPal Cashback Mastercard</div>
+          <div class="card-issuer">Synchrony · Mastercard</div>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-type">💵 Cash Back</span>
+        <span class="tag tag-type">🌐 Simple</span>
+      </div>
+      <div class="card-divider"></div>
+      <div class="card-stats">
+        <div class="stat-item"><div class="stat-label">Annual Fee</div><div class="stat-value gold">$0</div></div>
+        <div class="stat-item"><div class="stat-label">Reward Rate</div><div class="stat-value">3% on PayPal, 1.5% everywhere else</div></div>
+        <div class="stat-item"><div class="stat-label">Network</div><div class="stat-value">Mastercard</div></div>
+        <div class="stat-item"><div class="stat-label">Credit Needed</div><div class="stat-value">Good</div></div>
+      </div>
+      <div class="card-bonus">
+        <div class="bonus-label">Sign-up Bonus</div>
+        <div class="bonus-value">Check current offer on PayPal's website</div>
+      </div>
+      <div class="card-perks">
+        <div class="perk-item"><div class="perk-dot"></div>3% cash back when using PayPal at checkout</div>
+        <div class="perk-item"><div class="perk-dot"></div>1.5% cash back on all other purchases</div>
+        <div class="perk-item"><div class="perk-dot"></div>No annual fee</div>
+        <div class="perk-item"><div class="perk-dot"></div>Cash back deposited to PayPal balance</div>
+      </div>
+      <div class="card-airlines">
+        <div class="airlines-label">Airline Transfer Partners</div>
+        <div class="airline-pills"><span class="airline-pill">None — cash back card</span></div>
+      </div>
+      <a href="https://www.paypal.com/us/webapps/mpp/credit-card" target="_blank" rel="noopener noreferrer" class="card-apply">Apply Now →</a>
+    </div>
+
   <div class="no-results" id="no-results">
     <div class="no-results-title">No cards match your filters</div>
     <div class="no-results-sub">Try adjusting your filters or reset to see all cards.</div>
@@ -921,7 +1126,7 @@
     <a href="index.html#about">About</a>
     <a href="index.html#contact">Contact</a>
   </div>
-  <div class="footer-copy">© 2025 The Credit Card Compass. All rights reserved.</div>
+  <div class="footer-copy">© 2026 The Credit Card Compass. All rights reserved.</div>
 </footer>
 
 <script>
